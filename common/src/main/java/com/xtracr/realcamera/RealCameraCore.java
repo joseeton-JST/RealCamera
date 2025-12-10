@@ -48,7 +48,10 @@ public class RealCameraCore {
     }
 
     public static float getPitch(float f) {
-        if (currentTarget().bindConfig().bindRotation()) return (float) eulerAngle.x();
+        if (currentTarget().bindConfig().bindRotation()) {
+            float targetPitch = (float) eulerAngle.x();
+            return Mth.lerp((float) ConfigFile.config().getPitchInfluence(), f, targetPitch);
+        }
         return f;
     }
 
@@ -66,12 +69,20 @@ public class RealCameraCore {
     public static Vec3 getRawPos(Vec3 cameraPos, Vec3 entityPos) {
         Vec3 rawPos = SmoothUtil.smoothPosition(lastResult.getPosition()).add(entityPos);
         BindTarget.BindConfig bindConfig = currentTarget().bindConfig();
-        return new Vec3(bindConfig.bindX() ? rawPos.x() : cameraPos.x(), bindConfig.bindY() ? rawPos.y() : cameraPos.y(), bindConfig.bindZ() ? rawPos.z() : cameraPos.z());
+        double influence = ConfigFile.config().getPositionInfluence();
+        double x = bindConfig.bindX() ? Mth.lerp(influence, cameraPos.x(), rawPos.x()) : cameraPos.x();
+        double y = bindConfig.bindY() ? Mth.lerp(influence, cameraPos.y(), rawPos.y()) : cameraPos.y();
+        double z = bindConfig.bindZ() ? Mth.lerp(influence, cameraPos.z(), rawPos.z()) : cameraPos.z();
+        return new Vec3(x, y, z);
     }
 
     public static Vec3 getCameraPos(Vec3 vec) {
         BindTarget.BindConfig bindConfig = currentTarget().bindConfig();
-        return new Vec3(bindConfig.bindX() ? cameraPos.x() : vec.x(), bindConfig.bindY() ? cameraPos.y() : vec.y(), bindConfig.bindZ() ? cameraPos.z() : vec.z());
+        double influence = ConfigFile.config().getPositionInfluence();
+        double x = bindConfig.bindX() ? Mth.lerp(influence, vec.x(), cameraPos.x()) : vec.x();
+        double y = bindConfig.bindY() ? Mth.lerp(influence, vec.y(), cameraPos.y()) : vec.y();
+        double z = bindConfig.bindZ() ? Mth.lerp(influence, vec.z(), cameraPos.z()) : vec.z();
+        return new Vec3(x, y, z);
     }
 
     public static void setCameraPos(Vec3 vec) {
