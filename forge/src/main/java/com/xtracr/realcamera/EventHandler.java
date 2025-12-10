@@ -2,6 +2,7 @@ package com.xtracr.realcamera;
 
 import com.xtracr.realcamera.config.ConfigFile;
 import com.xtracr.realcamera.util.CrosshairUtil;
+import com.xtracr.realcamera.util.DevSupport;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.ViewportEvent;
@@ -9,7 +10,11 @@ import net.minecraftforge.event.TickEvent;
 
 public class EventHandler {
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) KeyMappings.handle(Minecraft.getInstance());
+        if (event.phase == TickEvent.Phase.END) {
+            Minecraft minecraft = Minecraft.getInstance();
+            KeyMappings.handle(minecraft);
+            DevSupport.requestStop(minecraft);
+        }
     }
 
     public static void onCameraSetup(ViewportEvent.ComputeCameraAngles event) {
