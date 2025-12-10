@@ -21,6 +21,11 @@ public class RealCameraFabric implements ClientModInitializer, RealCamera {
             DevSupport.requestStop(client);
         });
         WorldRenderEvents.START.register(EventHandler::onWorldRenderStart);
+
+        if (DevSupport.autoExitAfterLaunch()) {
+            net.minecraft.client.Minecraft.getInstance().stop();
+            return;
+        }
     }
 
     @Override

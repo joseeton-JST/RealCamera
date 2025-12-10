@@ -16,6 +16,16 @@ subprojects {
     loom {
         silentMojangMappingsLicense()
         accessWidenerPath = project(":common").file("src/main/resources/realcamera.accesswidener")
+
+        runs.configureEach { run ->
+            if (run.configName?.toLowerCase()?.contains("client") && !System.getenv().containsKey("DISPLAY")) {
+                run.vmArgs += [
+                        "-Djava.awt.headless=true",
+                        "-Drealcamera.autoExitAfterLaunch=true",
+                        "-Dcom.mojang.text2speech.disable=true"
+                ]
+            }
+        }
     }
 
     dependencies {
@@ -52,19 +62,25 @@ allprojects {
 
     tasks.withType(JavaExec).configureEach { task ->
         if (task.name.toLowerCase().contains("runclient")) {
+            boolean headless = !System.getenv().containsKey("DISPLAY")
             Process xvfbProcess = null
+
             task.doFirst {
-                if (!System.getenv().containsKey("DISPLAY")) {
-                    try {
-                        xvfbProcess = new ProcessBuilder("Xvfb", ":99", "-screen", "0", "1024x768x24")
-                                .inheritIO()
-                                .start()
-                        task.jvmArgs "-Djava.awt.headless=true", "-Drealcamera.autoExitAfterLaunch=true", "-Dcom.mojang.text2speech.disable=true"
-                        task.environment("DISPLAY", ":99")
-                        task.environment("LIBGL_ALWAYS_SOFTWARE", "1")
-                        task.environment("__GL_SYNC_TO_VBLANK", "0")
-                    } catch (IOException ex) {
-                        throw new GradleException("Failed to start Xvfb for ${task.path}", ex)
+                if (headless) {
+                    if (project.file('/usr/bin/Xvfb').canExecute() || project.file('/usr/local/bin/Xvfb').canExecute()) {
+                        try {
+                            xvfbProcess = new ProcessBuilder("Xvfb", ":99", "-screen", "0", "1024x768x24")
+                                    .inheritIO()
+                                    .start()
+                            task.environment("DISPLAY", ":99")
+                            task.environment("REALCAMERA_AUTO_EXIT", "true")
+                            task.environment("LIBGL_ALWAYS_SOFTWARE", "1")
+                            task.environment("__GL_SYNC_TO_VBLANK", "0")
+                        } catch (IOException ex) {
+                            throw new GradleException("Failed to start Xvfb for ${task.path}", ex)
+                        }
+                    } else {
+                        task.logger.warn("Xvfb is not installed; runClient may fail in headless environments")
                     }
                 }
             }
