@@ -49,6 +49,7 @@
   "config.option.xtracr_realcamera.bindResultRetentionFrames": "Marcos de retención de resultado de vinculación",
   "config.option.xtracr_realcamera.displacementSmoothFactor": "Factor de suavizado de desplazamiento",
   "config.option.xtracr_realcamera.rotationSmoothFactor": "Factor de suavizado de rotación",
+  "config.option.xtracr_realcamera.pitchInfluence": "Influencia del pitch",
   "config.option.xtracr_realcamera.disableMainFeatureItems": "Desactivar función principal al sostener...",
   "config.option.xtracr_realcamera.disableRenderItems": "Desactivar renderizado al sostener...",
   "config.tooltip.xtracr_realcamera.isClassic": "El modo clásico solo hace cambios simples a la posición y rotación de la cámara",
@@ -65,6 +66,7 @@
   "config.tooltip.xtracr_realcamera.bindResultRetentionFrames": "Durante varios fotogramas después del fallo de vinculación, continuar utilizando el resultado de vinculación exitoso anterior",
   "config.tooltip.xtracr_realcamera.displacementSmoothFactor": "Factor de suavizado del desplazamiento de la cámara, cuanto mayor sea el valor, más suave será el movimiento",
   "config.tooltip.xtracr_realcamera.rotationSmoothFactor": "Factor de suavizado de la rotación de la cámara, cuanto mayor sea el valor, más suave será el movimiento",
+  "config.tooltip.xtracr_realcamera.pitchInfluence": "Porcentaje del pitch objetivo aplicado a la cámara al vincular la rotación. 0% mantiene el pitch del jugador, 100% sigue totalmente el objetivo vinculado",
   "config.tooltip.xtracr_realcamera.disableRenderItems": "Se admiten tres métodos de coincidencia:\n1. Coincidencia con comodín `*` (por ejemplo, `minecraft:*sword`)\n2. Coincidencia de etiquetas (comienza con `#`, por ejemplo, `#minecraft:swords`)\n3. ID de objeto directo (por ejemplo, `minecraft:diamond_sword`)",
 
   "message.xtracr_realcamera.bindingFailed": "[%s]: Vinculación fallida, por favor vaya a la pantalla %s y configure manualmente (tecla: %s)",
