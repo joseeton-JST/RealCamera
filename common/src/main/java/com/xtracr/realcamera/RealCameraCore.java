@@ -48,7 +48,10 @@ public class RealCameraCore {
     }
 
     public static float getPitch(float f) {
-        if (currentTarget().bindConfig().bindRotation()) return (float) eulerAngle.x();
+        if (currentTarget().bindConfig().bindRotation()) {
+            float targetPitch = (float) eulerAngle.x();
+            return Mth.lerp((float) ConfigFile.config().getPitchInfluence(), f, targetPitch);
+        }
         return f;
     }
 

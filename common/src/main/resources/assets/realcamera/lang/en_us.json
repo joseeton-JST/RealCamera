@@ -52,6 +52,7 @@
   "config.option.xtracr_realcamera.bindResultRetentionFrames": "Bind Result Retention Frames",
   "config.option.xtracr_realcamera.displacementSmoothFactor": "Displacement Smooth Factor",
   "config.option.xtracr_realcamera.rotationSmoothFactor": "Rotation Smooth Factor",
+  "config.option.xtracr_realcamera.pitchInfluence": "Pitch Influence",
   "config.option.xtracr_realcamera.activeConfigIndex": "Active Configuration Index",
   "config.option.xtracr_realcamera.disableMainFeatureItems": "Disable main feature when holding",
   "config.option.xtracr_realcamera.disableRenderItems": "Disable rendering when holding",
@@ -69,6 +70,7 @@
   "config.tooltip.xtracr_realcamera.bindResultRetentionFrames": "For several frames after the binding failure, continue to use the previous successful binding result",
   "config.tooltip.xtracr_realcamera.displacementSmoothFactor": "Smooth factor of camera displacement, the higher the value, the smoother the movement",
   "config.tooltip.xtracr_realcamera.rotationSmoothFactor": "Smooth factor of camera rotation, the higher the value, the smoother the movement",
+  "config.tooltip.xtracr_realcamera.pitchInfluence": "Percentage of target pitch applied to the camera when binding rotation. 0% keeps the player's own pitch, 100% fully follows the bound target",
   "config.tooltip.xtracr_realcamera.activeConfigIndex": "Currently bound configuration index, 0 means allowing binding to any valid configuration",
   "config.tooltip.xtracr_realcamera.disableRenderItems": "Three matching methods are supported:\n1. Wildcard `*` matching (e.g., `minecraft:*sword`)\n2. Tag matching (starts with `#`, e.g., `#minecraft:swords`)\n3. Direct item ID (e.g., `minecraft:diamond_sword`)",
 
