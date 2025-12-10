@@ -1,5 +1,6 @@
 package com.xtracr.realcamera;
 
+import com.xtracr.realcamera.util.DevSupport;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,7 +16,10 @@ public class RealCameraFabric implements ClientModInitializer, RealCamera {
         initialize();
         KeyMappings.register(KeyBindingHelper::registerKeyBinding);
 
-        ClientTickEvents.END_CLIENT_TICK.register(KeyMappings::handle);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            KeyMappings.handle(client);
+            DevSupport.requestStop(client);
+        });
         WorldRenderEvents.START.register(EventHandler::onWorldRenderStart);
     }
 

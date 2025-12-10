@@ -1,3 +1,5 @@
+import java.io.IOException
+
 plugins {
     // Use a released Architectury Plugin to avoid snapshot resolution failures in new environments.
     id "architectury-plugin" version "3.4.162"
@@ -46,6 +48,33 @@ allprojects {
     tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
         options.release = 17
+    }
+
+    tasks.withType(JavaExec).configureEach { task ->
+        if (task.name.toLowerCase().contains("runclient")) {
+            Process xvfbProcess = null
+            task.doFirst {
+                if (!System.getenv().containsKey("DISPLAY")) {
+                    try {
+                        xvfbProcess = new ProcessBuilder("Xvfb", ":99", "-screen", "0", "1024x768x24")
+                                .inheritIO()
+                                .start()
+                        task.jvmArgs "-Djava.awt.headless=true", "-Drealcamera.autoExitAfterLaunch=true", "-Dcom.mojang.text2speech.disable=true"
+                        task.environment("DISPLAY", ":99")
+                        task.environment("LIBGL_ALWAYS_SOFTWARE", "1")
+                        task.environment("__GL_SYNC_TO_VBLANK", "0")
+                    } catch (IOException ex) {
+                        throw new GradleException("Failed to start Xvfb for ${task.path}", ex)
+                    }
+                }
+            }
+
+            task.doLast {
+                if (xvfbProcess?.isAlive()) {
+                    xvfbProcess.destroy()
+                }
+            }
+        }
     }
 
     java {
