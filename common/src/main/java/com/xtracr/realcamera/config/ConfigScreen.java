@@ -186,6 +186,13 @@ public class ConfigScreen {
                 .setTooltip(LocUtil.CONFIG_TOOLTIP("bindResultRetentionFrames"))
                 .setSaveConsumer(i -> config.binding.bindResultRetentionFrames = i)
                 .build());
+        binding.addEntry(entryBuilder.startIntField(LocUtil.CONFIG_OPTION("returnDelayMs"), config.binding.returnDelayMs)
+                .setDefaultValue(120)
+                .setMin(0)
+                .setMax(2000)
+                .setTooltip(LocUtil.CONFIG_TOOLTIP("returnDelayMs"))
+                .setSaveConsumer(i -> config.binding.returnDelayMs = i)
+                .build());
         binding.addEntry(entryBuilder.startIntField(LocUtil.CONFIG_OPTION("activeConfigIndex"), config.binding.activeConfigIndex)
                 .setDefaultValue(0)
                 .setMin(0)

@@ -192,6 +192,10 @@ public class ModConfig {
         return binding.bindResultRetentionFrames;
     }
 
+    public int getReturnDelayMs() {
+        return binding.returnDelayMs;
+    }
+
     public double getDisplacementSmoothFactor() {
         return binding.displacementSmoothFactor;
     }
@@ -304,6 +308,7 @@ public class ModConfig {
         public int swimOutTick = 13;
         public int bindResultRetentionFrames = 2;
         public int activeConfigIndex = 0;
+        public int returnDelayMs = 120;
         public double displacementSmoothFactor = 0.4;
         public double rotationSmoothFactor = 0.4;
         public double positionInfluence = 1.0;
@@ -321,6 +326,7 @@ public class ModConfig {
             }
             swimOutTick = Mth.clamp(swimOutTick, 0, 40);
             bindResultRetentionFrames = Math.max(bindResultRetentionFrames, 0);
+            returnDelayMs = Mth.clamp(returnDelayMs, 0, 2000);
             displacementSmoothFactor = Mth.clamp(displacementSmoothFactor, 0.0, 1.0);
             rotationSmoothFactor = Mth.clamp(rotationSmoothFactor, 0.0, 1.0);
             positionInfluence = Mth.clamp(positionInfluence, 0.0, 1.0);

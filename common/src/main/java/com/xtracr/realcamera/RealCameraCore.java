@@ -45,6 +45,7 @@ public class RealCameraCore {
     public static void reset() {
         cameraPos = eulerAngle = Vec3.ZERO;
         failureFrames = 0;
+        SmoothUtil.reset();
     }
 
     public static float getPitch(float f) {
