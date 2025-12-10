@@ -68,7 +68,7 @@ public class RealCameraCore {
     }
 
     public static Vec3 getRawPos(Vec3 cameraPos, Vec3 entityPos) {
-        Vec3 bindOffset = SmoothUtil.smoothPosition(lastResult.getPosition());
+        Vec3 bindOffset = SmoothUtil.smoothPosition(lastResult.getPosition()).subtract(entityPos);
         Vec3 vanillaOffset = cameraPos.subtract(entityPos);
         double influence = ConfigFile.config().getPositionInfluence();
         BindTarget.BindConfig bindConfig = currentTarget().bindConfig();
