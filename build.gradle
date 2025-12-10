@@ -1,5 +1,6 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
+    // Use a released Architectury Plugin to avoid snapshot resolution failures in new environments.
+    id "architectury-plugin" version "3.4.162"
     id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
 }
 
