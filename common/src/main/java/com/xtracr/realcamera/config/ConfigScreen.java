@@ -186,6 +186,13 @@ public class ConfigScreen {
                 .setTooltip(LocUtil.CONFIG_TOOLTIP("bindResultRetentionFrames"))
                 .setSaveConsumer(i -> config.binding.bindResultRetentionFrames = i)
                 .build());
+        binding.addEntry(entryBuilder.startIntField(LocUtil.CONFIG_OPTION("returnDelayMs"), config.binding.returnDelayMs)
+                .setDefaultValue(120)
+                .setMin(0)
+                .setMax(2000)
+                .setTooltip(LocUtil.CONFIG_TOOLTIP("returnDelayMs"))
+                .setSaveConsumer(i -> config.binding.returnDelayMs = i)
+                .build());
         binding.addEntry(entryBuilder.startIntField(LocUtil.CONFIG_OPTION("activeConfigIndex"), config.binding.activeConfigIndex)
                 .setDefaultValue(0)
                 .setMin(0)
@@ -205,6 +212,20 @@ public class ConfigScreen {
                 .setMax(1.0)
                 .setTooltip(LocUtil.CONFIG_TOOLTIP("rotationSmoothFactor"))
                 .setSaveConsumer(d -> config.binding.rotationSmoothFactor = d)
+                .build());
+        binding.addEntry(entryBuilder.startDoubleField(LocUtil.CONFIG_OPTION("positionInfluence"), config.binding.positionInfluence)
+                .setDefaultValue(1.0)
+                .setMin(0.0)
+                .setMax(1.0)
+                .setTooltip(LocUtil.CONFIG_TOOLTIP("positionInfluence"))
+                .setSaveConsumer(d -> config.binding.positionInfluence = d)
+                .build());
+        binding.addEntry(entryBuilder.startDoubleField(LocUtil.CONFIG_OPTION("pitchInfluence"), config.binding.pitchInfluence)
+                .setDefaultValue(1.0)
+                .setMin(0.0)
+                .setMax(1.0)
+                .setTooltip(LocUtil.CONFIG_TOOLTIP("pitchInfluence"))
+                .setSaveConsumer(d -> config.binding.pitchInfluence = d)
                 .build());
         binding.addEntry(entryBuilder.startStrList(LocUtil.CONFIG_OPTION("disableMainFeatureItems"), config.binding.disableMainFeatureItems)
                 .setDefaultValue(List.of())

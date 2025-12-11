@@ -45,10 +45,14 @@ public class RealCameraCore {
     public static void reset() {
         cameraPos = eulerAngle = Vec3.ZERO;
         failureFrames = 0;
+        SmoothUtil.reset();
     }
 
     public static float getPitch(float f) {
-        if (currentTarget().bindConfig().bindRotation()) return (float) eulerAngle.x();
+        if (currentTarget().bindConfig().bindRotation()) {
+            float targetPitch = (float) eulerAngle.x();
+            return Mth.lerp((float) ConfigFile.config().getPitchInfluence(), f, targetPitch);
+        }
         return f;
     }
 
@@ -64,14 +68,28 @@ public class RealCameraCore {
     }
 
     public static Vec3 getRawPos(Vec3 cameraPos, Vec3 entityPos) {
-        Vec3 rawPos = SmoothUtil.smoothPosition(lastResult.getPosition()).add(entityPos);
+        Vec3 bindOffset = SmoothUtil.smoothPosition(lastResult.getPosition()).subtract(entityPos);
+        Vec3 vanillaOffset = cameraPos.subtract(entityPos);
+        double influence = ConfigFile.config().getPositionInfluence();
         BindTarget.BindConfig bindConfig = currentTarget().bindConfig();
-        return new Vec3(bindConfig.bindX() ? rawPos.x() : cameraPos.x(), bindConfig.bindY() ? rawPos.y() : cameraPos.y(), bindConfig.bindZ() ? rawPos.z() : cameraPos.z());
+        double xOffset = bindConfig.bindX() ? Mth.lerp(influence, vanillaOffset.x(), bindOffset.x()) : vanillaOffset.x();
+        double yOffset = bindConfig.bindY() ? Mth.lerp(influence, vanillaOffset.y(), bindOffset.y()) : vanillaOffset.y();
+        double zOffset = bindConfig.bindZ() ? Mth.lerp(influence, vanillaOffset.z(), bindOffset.z()) : vanillaOffset.z();
+        return entityPos.add(xOffset, yOffset, zOffset);
     }
 
     public static Vec3 getCameraPos(Vec3 vec) {
+        Minecraft client = Minecraft.getInstance();
+        Entity entity = client.getCameraEntity();
+        if (entity == null) return vec;
         BindTarget.BindConfig bindConfig = currentTarget().bindConfig();
-        return new Vec3(bindConfig.bindX() ? cameraPos.x() : vec.x(), bindConfig.bindY() ? cameraPos.y() : vec.y(), bindConfig.bindZ() ? cameraPos.z() : vec.z());
+        Vec3 vanillaOffset = vec.subtract(entity.position());
+        Vec3 boundOffset = cameraPos.subtract(entity.position());
+        double influence = ConfigFile.config().getPositionInfluence();
+        double x = bindConfig.bindX() ? Mth.lerp(influence, vanillaOffset.x(), boundOffset.x()) : vanillaOffset.x();
+        double y = bindConfig.bindY() ? Mth.lerp(influence, vanillaOffset.y(), boundOffset.y()) : vanillaOffset.y();
+        double z = bindConfig.bindZ() ? Mth.lerp(influence, vanillaOffset.z(), boundOffset.z()) : vanillaOffset.z();
+        return entity.position().add(x, y, z);
     }
 
     public static void setCameraPos(Vec3 vec) {
